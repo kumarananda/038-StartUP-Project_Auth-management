@@ -3,10 +3,15 @@ import  express  from "express";
 import colors from "colors";
 import dotenv from 'dotenv';
 import studentRoutes from './routes/studentsRoutes.js'
+import mongoDBConnect from "./config/db.js";
+import errorHandler from "./middlewares/errorHandler.js";
+
 
 // express init
 const app = express()
 dotenv.config()
+
+
 
 // middlewares
 app.use(express.json());
@@ -17,10 +22,17 @@ app.use(express.urlencoded({extended : false}))
 // env variabels
 const PORT = process.env.SERVER_PORT || 5000
 
+
+
 // routes
-app.use('/api/students', studentRoutes)
+app.use('/api/students', studentRoutes);
+
+// error handler
+app.use(errorHandler)
 
 // listen server
 app.listen(PORT, () => {
-    console.log(`sevver running on port ${PORT}` .bgGreen.black);
+    // mongoDB init
+    mongoDBConnect()
+    console.log(`server running on port ${PORT}` .bgGreen.black);
 })
