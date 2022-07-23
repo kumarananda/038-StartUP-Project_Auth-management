@@ -19,10 +19,10 @@ export const  getAllStudent = async (req, res, next) => {
         }
         // if found data
         if(student){
-            res.status(200).json(student);
+            return res.status(200).json(student);
         }
 
-        res.status(200).json(student);
+        // res.status(200).json(student);
 
     }catch(error){
 
