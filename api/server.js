@@ -2,7 +2,8 @@
 import  express  from "express";
 import colors from "colors";
 import dotenv from 'dotenv';
-import studentRoutes from './routes/studentsRoutes.js'
+import studentRoutes from './routes/studentsRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import mongoDBConnect from "./config/db.js";
 import errorHandler from "./middlewares/errorHandler.js";
 
@@ -10,7 +11,6 @@ import errorHandler from "./middlewares/errorHandler.js";
 // express init
 const app = express()
 dotenv.config()
-
 
 
 // middlewares
@@ -26,6 +26,7 @@ const PORT = process.env.SERVER_PORT || 5000
 
 // routes
 app.use('/api/students', studentRoutes);
+app.use('/api/user', userRoutes);
 
 // error handler
 app.use(errorHandler)
