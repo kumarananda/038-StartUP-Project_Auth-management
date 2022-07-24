@@ -22,7 +22,7 @@ export const  getAllUser = async (req, res, next) => {
             res.status(200).json(user);
         }
 
-        res.status(200).json(user);
+
 
     }catch(error){
 
@@ -104,12 +104,14 @@ export const  deleteUser = async (req, res, next) => {
 
     try {
         const datafind = await User.findById(id);
+        
         if(!datafind){
             return next(createError(404, "User not found"));
         }
         if(datafind){
             const deleted = await User.findByIdAndDelete(id)
             res.status(200).json({...deleted, msg : "Delete Done"})
+            // res.status(200).json("Data found")
         }
         
 
@@ -138,18 +140,18 @@ export const  editUser = async (req, res, next) => {
 
         const datafind = await User.findById(id);
 
-        console.log(datafind);
-        res.status(200).json(datafind)
+        // console.log(datafind);
+        // res.status(200).json(datafind)
 
-        // if(!datafind){
-        //     return next(createError(404, "User not found"));
-        // }
+        if(!datafind){
+            return next(createError(404, "User not found"));
+        }
 
-        // if(datafind){
+        if(datafind){
 
-        //     const updateUser = await User.findByIdAndUpdate(id, req.body, {new : true} )
-        //     res.status(200).json(updateUser)
-        // }
+            const updateUser = await User.findByIdAndUpdate(id, req.body, {new : true} )
+            res.status(200).json(updateUser)
+        }
 
 
 

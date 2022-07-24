@@ -15,7 +15,7 @@ export const  getAllStudent = async (req, res, next) => {
 
         // if not found data
         if(!student){
-            return next(createError(404, "Single student not found"))
+            return next(createError(404, "student not found"))
         }
         // if found data
         if(student){
