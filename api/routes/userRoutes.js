@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, deleteUser, editUser, getAllUser, getSingleUser } from '../controllers/userController.js';
+import { createUser, deleteUser, editUser, getAllUser, getSingleUser, userLogin, userRegister } from '../controllers/userController.js';
 
 
 //init router
@@ -10,8 +10,8 @@ router.route('/').get(getAllUser).post(createUser);
 router.route('/:id').get(getSingleUser).delete(deleteUser).put(editUser).patch(editUser);
 
 // user Auth route
-// router.post('/login', userLogin)
-// router.post('/register', userRegister)
+router.post('/login', userLogin)
+router.post('/register', userRegister)
 
 // export router
 export default router;

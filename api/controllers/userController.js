@@ -167,3 +167,108 @@ export const  editUser = async (req, res, next) => {
 
 }
 
+
+/**
+ * @access public
+ * @route /api/user/login
+ * @method post 
+ */
+ export const  userLogin = async (req, res, next) => {
+
+    // get body data
+    const { data, email, username, password} = req.body;
+
+    try {
+
+
+        // // find user by email , username, cell any type of data 02
+        let login_user = null;
+        const login_useremail = await User.findOne({email : data});
+        if(login_useremail){
+            login_user = login_useremail
+        }else {
+            const login_username = await User.findOne({username : data});
+            if(login_username){
+                login_user = login_username;
+            }else{
+                const login_usercell = await User.findOne({cell : data});
+                login_user = login_usercell;
+            }
+        }
+
+        {
+        // // find user by email , username, cell any type of data 01
+
+        // const login_useremail = await User.findOne({email : data});
+        // const login_username = await User.findOne({username : data});
+        // const login_usercell = await User.findOne({cell : data});
+        
+        // const login_user = login_useremail ? login_useremail : (login_username ? login_username : login_usercell );
+        
+
+        
+        // // find user 
+        // let login_user = await User.findOne({email});
+             
+        // if(!login_user){
+        //     const login_username = await User.findOne({username});
+        //     login_user = login_username 
+        // }
+
+        // // find user 
+        // const login_useremail = await User.findOne({email});
+        // const login_username = await User.findOne({username});
+        // const login_user = login_useremail ? login_useremail : login_username;
+        }
+
+
+        // apply on user not found
+        if(!login_user){
+
+            return next(createError(404, "user not found"))
+            // return res.status(404).json("user not found")
+        }
+        // check password
+        const passwordCheck = await bcrypt.compare(password, login_user.password);
+        // handle password
+        if( !passwordCheck){
+            return next(createError(404, "Password not match"))
+            // return res.status(402).json("Password not match");
+        }
+        
+        return res.status(200).json(login_user)
+
+    } catch (error){
+
+        next(error)
+    }
+
+
+}
+
+/**
+ * @access public
+ * @route /api/user/register
+ * @method post 
+ */
+ export const  userRegister = async (req, res, next) => {
+
+    
+
+    // make hash password
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt)
+
+    try {
+        const createUser = await User.create({...req.body, password : hash})
+        res.status(200).json(createUser)
+    } catch(error){
+        
+        //  directly send server error
+        next(error)
+
+        //coustomly send error
+        // next(createError(404, "coustomly error"))
+    }
+    
+}
