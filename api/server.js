@@ -6,7 +6,7 @@ import studentRoutes from './routes/studentsRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import mongoDBConnect from "./config/db.js";
 import errorHandler from "./middlewares/errorHandler.js";
-
+import cookieParser from "cookie-parser";
 
 // express init
 const app = express()
@@ -16,7 +16,7 @@ dotenv.config()
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended : false}))
-
+app.use(cookieParser());
 
 
 // env variabels

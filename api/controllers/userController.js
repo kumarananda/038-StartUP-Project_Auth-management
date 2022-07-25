@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs'
 import createError from "./createError.js";
+import jwt from 'jsonwebtoken'
 
 /**
  * @access public
@@ -176,7 +177,7 @@ export const  editUser = async (req, res, next) => {
  export const  userLogin = async (req, res, next) => {
 
     // get body data
-    const { data, email, username, password} = req.body;
+    const { data, email, username} = req.body;
 
     try {
 
@@ -225,18 +226,27 @@ export const  editUser = async (req, res, next) => {
         // apply on user not found
         if(!login_user){
 
-            return next(createError(404, "user not found"))
-            // return res.status(404).json("user not found")
+            return next(createError(404, "user not found"))          
         }
+
         // check password
-        const passwordCheck = await bcrypt.compare(password, login_user.password);
+        const passwordCheck = await bcrypt.compare(req.body.password, login_user.password);
         // handle password
         if( !passwordCheck){
             return next(createError(404, "Password not match"))
-            // return res.status(402).json("Password not match");
         }
+
+        // https://generate.plus/en/base64
+        // create json web token ( {user_ID }, our_secret , {expiry/validity})
+        const token = jwt.sign( {id : login_user._id, isAdmin : login_user.isAdmin },  process.env.JWT_SECRET , { expiresIn : "2d" });
+
+        // login user info >> skiping _id, password, isAdmin and  "_doc" hare for Extra added data when skiping
+        const { _id, password, isAdmin, ...login_info } =login_user._doc;
         
-        return res.status(200).json(login_user)
+         res.cookie("access_token", token).status(200).json({
+            token : token,
+            user : login_info
+         })
 
     } catch (error){
 
