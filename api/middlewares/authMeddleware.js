@@ -22,7 +22,12 @@ const authMedleware = (req, res, next) => {
             return next(createError(401, "Token is Expired"))
         }
 
-        console.log(tokenCheck.id);
+        // compare user data
+        // if(tokenCheck.id !== req.params.id ){
+        //     return next(createError(401, "You are not able to access this data"))
+        // }
+
+        console.log(req.params.id);
         // if token  is authenticated
         if(tokenCheck){
             req.user =  tokenCheck;
