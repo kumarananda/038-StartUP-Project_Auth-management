@@ -13,7 +13,7 @@ const app = express()
 dotenv.config()
 
 
-// middlewares
+// middlewares // body parser
 app.use(express.json());
 app.use(express.urlencoded({extended : false}))
 app.use(cookieParser());
