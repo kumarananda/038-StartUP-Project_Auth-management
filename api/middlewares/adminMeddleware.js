@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 
 // check user authenticated or not
-const authMedleware = (req, res, next) => {
+const adminMeddleware = (req, res, next) => {
 
     try{
 
@@ -22,12 +22,12 @@ const authMedleware = (req, res, next) => {
             return next(createError(401, "Token is Expired"))
         }
 
-        // // compare user data
-        // if(tokenCheck.id !== req.params.id ){
-        //     return next(createError(401, "You are not able to access this data"))
-        // }
+        // // check admin or not
+        if(!tokenCheck.isAdmin){
+            return next(createError(401, "only admin can access for this data"));
+        }
 
-
+        console.log(req.params.id);
         // if token  is authenticated
         if(tokenCheck){
             req.user =  tokenCheck;
@@ -46,4 +46,4 @@ const authMedleware = (req, res, next) => {
     
 }
 
-export default authMedleware;
+export default adminMeddleware;

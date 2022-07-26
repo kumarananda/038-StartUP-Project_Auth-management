@@ -13,6 +13,7 @@ const errorHandler = (error, req, res, next) => {
         stack : error.stack
     })
 
+
 }
 
 export default errorHandler;

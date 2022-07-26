@@ -238,7 +238,7 @@ export const  editUser = async (req, res, next) => {
 
         // https://generate.plus/en/base64
         // create json web token ( {user_ID }, our_secret , {expiry/validity})
-        const token = jwt.sign( {id : login_user._id, isAdmin : login_user.isAdmin },  process.env.JWT_SECRET , { expiresIn : "60s" });
+        const token = jwt.sign( {id : login_user._id, isAdmin : login_user.isAdmin },  process.env.JWT_SECRET , { expiresIn : "1d" });
 
         // login user info >> skiping _id, password, isAdmin and  "_doc" hare for Extra added data when skiping
         const { _id, password, isAdmin, ...login_info } =login_user._doc;

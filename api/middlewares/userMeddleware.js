@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 
 // check user authenticated or not
-const authMedleware = (req, res, next) => {
+const userMeddleware = (req, res, next) => {
 
     try{
 
@@ -23,11 +23,11 @@ const authMedleware = (req, res, next) => {
         }
 
         // // compare user data
-        // if(tokenCheck.id !== req.params.id ){
-        //     return next(createError(401, "You are not able to access this data"))
-        // }
+        if(tokenCheck.id !== req.params.id ){
+            return next(createError(401, "You are not able to access this data"))
+        }
 
-
+        // console.log(tokenCheck);
         // if token  is authenticated
         if(tokenCheck){
             req.user =  tokenCheck;
@@ -46,4 +46,4 @@ const authMedleware = (req, res, next) => {
     
 }
 
-export default authMedleware;
+export default userMeddleware;
