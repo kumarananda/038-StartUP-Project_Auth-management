@@ -181,31 +181,32 @@ export const  editUser = async (req, res, next) => {
 
     try {
 
+        // find user by email , username, cell any type of data 01
+        //more standerd from 02 ***
 
-        // // find user by email , username, cell any type of data 02
-        let login_user = null;
         const login_useremail = await User.findOne({email : data});
-        if(login_useremail){
-            login_user = login_useremail
-        }else {
-            const login_username = await User.findOne({username : data});
-            if(login_username){
-                login_user = login_username;
-            }else{
-                const login_usercell = await User.findOne({cell : data});
-                login_user = login_usercell;
-            }
-        }
+        const login_username = await User.findOne({username : data});
+        const login_usercell = await User.findOne({cell : data});
+        
+        const login_user = login_useremail ? login_useremail : (login_username ? login_username : login_usercell );
+        
 
         {
-        // // find user by email , username, cell any type of data 01
 
+        //  // find user by email , username, cell any type of data 02 ***
+        // let login_user = null;
         // const login_useremail = await User.findOne({email : data});
-        // const login_username = await User.findOne({username : data});
-        // const login_usercell = await User.findOne({cell : data});
-        
-        // const login_user = login_useremail ? login_useremail : (login_username ? login_username : login_usercell );
-        
+        // if(login_useremail){
+        //     login_user = login_useremail
+        // }else {
+        //     const login_username = await User.findOne({username : data});
+        //     if(login_username){
+        //         login_user = login_username;
+        //     }else{
+        //         const login_usercell = await User.findOne({cell : data});
+        //         login_user = login_usercell;
+        //     }
+        // }
 
         
         // // find user 
